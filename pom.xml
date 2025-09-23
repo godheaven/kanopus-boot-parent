@@ -1,0 +1,270 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.6</version>
+		<relativePath/>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>cl.kanopus</groupId>
+	<artifactId>kanopus-boot-parent</artifactId>
+	<version>3.5.6</version>
+	<packaging>pom</packaging>
+
+	<name>Kanopus Boot Parent</name>
+	<description>Parent for Kanopus Spring Boot applications</description>
+	<url>https://kanopus.cl/</url>
+
+	<properties>
+		<java.version>17</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- plugins versions -->
+		<central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
+		<license-maven-plugin.version>2.6.0</license-maven-plugin.version>
+		<maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
+		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+		<maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+		<maven-javadoc-plugin.version>3.7.0</maven-javadoc-plugin.version>
+		<proguard-maven-plugin.version>2.6.1</proguard-maven-plugin.version>
+
+		<!-- behavior configuration -->
+		<maven.test.skip>false</maven.test.skip>
+		<license.skip>true</license.skip>
+		<proguard.skip>true</proguard.skip>
+	</properties>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>
+				A permissive license that allows commercial use and modification,
+				provided that proper attribution and copyright notice are retained.
+			</comments>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>pablo</id>
+			<name>Pablo Andres Diaz Saavedra</name>
+			<email>pabloandres.diazsaavedra@gmail.com</email>
+			<url>https://github.com/godheaven</url>
+			<organization>Kanopus</organization>
+			<organizationUrl>https://kanopus.cl</organizationUrl>
+			<roles>
+				<role>Developer</role>
+				<role>Architect</role>
+			</roles>
+			<timezone>-3</timezone>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:https://github.com/godheaven/kanopus-boot-parent.git</connection>
+		<developerConnection>scm:git:https://github.com/godheaven/kanopus-boot-parent.git</developerConnection>
+		<url>https://github.com/godheaven/kanopus-boot-parent</url>
+		<tag>HEAD</tag>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+					</plugin>
+
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+					</plugin>
+
+					<!-- Sign ALL artifacts, including the .pom -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>${maven-gpg-plugin.version}</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+					<configuration>
+						<release>${java.version}</release>
+						<excludes>
+							<exclude>**/package-info.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven-javadoc-plugin.version}</version>
+					<configuration>
+						<failOnError>false</failOnError>
+						<doclint>none</doclint> <!-- evita doclint con Java 8+ -->
+						<source>${java.version}</source>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<configuration>
+						<skipTests>${maven.test.skip}</skipTests>
+					</configuration>
+				</plugin>
+
+				<!-- It is declared here for children to inherit, but the header is controlled with 'license.skip' -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>license-maven-plugin</artifactId>
+					<version>${license-maven-plugin.version}</version>
+					<configuration>
+						<skipUpdateLicense>${license.skip}</skipUpdateLicense>
+						<includes>
+							<include>**/*.java</include>
+						</includes>
+						<licenseName>apache_v2</licenseName>
+						<organizationName>Pablo Díaz Saavedra</organizationName>
+						<inceptionYear>2025</inceptionYear>
+						<addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
+						<processStartTag>!--</processStartTag>
+						<processEndTag>--!</processEndTag>
+						<descriptionTemplate>${user.home}/.m2/license/description.ftl</descriptionTemplate>
+					</configuration>
+					<executions>
+						<execution>
+							<id>apply-license-headers</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>update-file-header</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>com.github.wvengen</groupId>
+					<artifactId>proguard-maven-plugin</artifactId>
+					<version>${proguard-maven-plugin.version}</version>
+					<executions>
+						<execution>
+							<phase>package</phase>
+							<goals>
+								<goal>proguard</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<skip>${proguard.skip}</skip>
+						<maxMemory>1024m</maxMemory>
+						<proguardInclude>${basedir}/proguard.conf</proguardInclude>
+						<libs>
+							<lib>${java.home}/jmods</lib>
+						</libs>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.github.wvengen</groupId>
+				<artifactId>proguard-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<version>${central-publishing-maven-plugin.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+					<publishingServerId>central</publishingServerId>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
