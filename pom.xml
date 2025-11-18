@@ -36,6 +36,7 @@
 		<klib-excel.version>3.57.0</klib-excel.version>
 		<klib-pdf.version>3.57.0</klib-pdf.version>
 		<klib-rest-template.version>3.57.0</klib-rest-template.version>
+		<klib-sii.version>3.57.0</klib-sii.version>
 		<klib-sii-iva.version>3.57.0</klib-sii-iva.version>
 
 		<!-- plugins versions -->
@@ -137,6 +138,12 @@
 				<groupId>cl.kanopus.util</groupId>
 				<artifactId>klib-sii-iva</artifactId>
 				<version>${klib-sii-iva.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cl.kanopus.util</groupId>
+				<artifactId>klib-sii</artifactId>
+				<version>${klib-sii.version}</version>
 			</dependency>
 
 			<dependency>
