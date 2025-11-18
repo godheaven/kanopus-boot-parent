@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.6</version>
+		<version>3.5.7</version>
 		<relativePath/>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cl.kanopus</groupId>
 	<artifactId>kanopus-boot-parent</artifactId>
-	<version>3.5.6</version>
+	<version>3.5.7</version>
 	<packaging>pom</packaging>
 
 	<name>Kanopus Boot Parent</name>
@@ -23,20 +23,130 @@
 		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<!-- SNYK Fixes -->
+		<commons-lang3.version>3.18.0</commons-lang3.version> <!-- CVE-2025-48924 -->
+
+		<!-- BOM versions -->
+		<jjwt.version>0.11.5</jjwt.version>
+
+		<!-- BOM kanopus versions -->
+		<klib-common.version>3.57.0</klib-common.version>
+		<klib-data-jdbc.version>3.57.0</klib-data-jdbc.version>
+		<klib-deploy-sql.version>3.57.0</klib-deploy-sql.version>
+		<klib-excel.version>3.57.0</klib-excel.version>
+		<klib-pdf.version>3.57.0</klib-pdf.version>
+		<klib-rest-template.version>3.57.0</klib-rest-template.version>
+		<klib-sii-iva.version>3.57.0</klib-sii-iva.version>
+
 		<!-- plugins versions -->
-		<central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
-		<license-maven-plugin.version>2.6.0</license-maven-plugin.version>
-		<maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
-		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+		<license-maven-plugin.version>2.7.0</license-maven-plugin.version>
+		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
+		<maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
 		<maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>3.7.0</maven-javadoc-plugin.version>
+		<maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
 		<proguard-maven-plugin.version>2.6.1</proguard-maven-plugin.version>
+		<versions-maven-plugin.version>2.19.1</versions-maven-plugin.version>
+		<maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
 
 		<!-- behavior configuration -->
 		<maven.test.skip>false</maven.test.skip>
 		<license.skip>true</license.skip>
 		<proguard.skip>true</proguard.skip>
 	</properties>
+
+	<!-- BOM integrado -->
+	<dependencyManagement>
+		<dependencies>
+
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-api</artifactId>
+				<version>${jjwt.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-impl</artifactId>
+				<version>${jjwt.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-jackson</artifactId>
+				<version>${jjwt.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cl.kanopus.util</groupId>
+				<artifactId>klib-common</artifactId>
+				<version>${klib-common.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cl.kanopus.util</groupId>
+				<artifactId>klib-data-jdbc</artifactId>
+				<version>${klib-data-jdbc.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cl.kanopus.util</groupId>
+				<artifactId>klib-deploy-sql</artifactId>
+				<version>${klib-deploy-sql.version}</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-slf4j2-impl</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>ch.qos.logback</groupId>
+						<artifactId>logback-classic</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
+			<dependency>
+				<groupId>cl.kanopus.util</groupId>
+				<artifactId>klib-excel</artifactId>
+				<version>${klib-excel.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cl.kanopus.util</groupId>
+				<artifactId>klib-pdf</artifactId>
+				<version>${klib-pdf.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cl.kanopus.util</groupId>
+				<artifactId>klib-rest-template</artifactId>
+				<version>${klib-rest-template.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>cl.kanopus.util</groupId>
+				<artifactId>klib-sii-iva</artifactId>
+				<version>${klib-sii-iva.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>2.8.13</version>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
 
 	<licenses>
 		<license>
@@ -264,6 +374,37 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>${versions-maven-plugin.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>org.apache.commons:commons-collections4</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>${maven-enforcer-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>enforce-maven-min-version</id>
+						<goals>
+							<goal>enforce</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<requireMavenVersion>
+									<version>[3.6.3,)</version>
+								</requireMavenVersion>
+							</rules>
+							<fail>true</fail>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
