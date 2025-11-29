@@ -27,7 +27,8 @@
 		<commons-lang3.version>3.18.0</commons-lang3.version> <!-- CVE-2025-48924 -->
 
 		<!-- BOM versions -->
-		<jjwt.version>0.11.5</jjwt.version>
+		<jjwt.version>0.13.0</jjwt.version>
+		<springdoc-openapi-starter-webmvc-ui.version>2.8.13</springdoc-openapi-starter-webmvc-ui.version>
 
 		<!-- BOM kanopus versions -->
 		<klib-common.version>3.57.0</klib-common.version>
@@ -149,7 +150,7 @@
 			<dependency>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-				<version>2.8.13</version>
+				<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
 			</dependency>
 
 		</dependencies>
@@ -381,6 +382,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
