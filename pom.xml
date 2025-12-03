@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.7</version>
+		<version>3.5.8</version>
 		<relativePath/>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cl.kanopus</groupId>
 	<artifactId>kanopus-boot-parent</artifactId>
-	<version>3.5.7</version>
+	<version>3.58.0</version>
 	<packaging>pom</packaging>
 
 	<name>Kanopus Boot Parent</name>
@@ -24,21 +24,21 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- SNYK Fixes -->
-		<commons-lang3.version>3.18.0</commons-lang3.version> <!-- CVE-2025-48924 -->
+		<commons-lang3.version>3.20.0</commons-lang3.version> <!-- CVE-2025-48924 -->
 
 		<!-- BOM versions -->
 		<jjwt.version>0.13.0</jjwt.version>
-		<springdoc-openapi-starter-webmvc-ui.version>2.8.13</springdoc-openapi-starter-webmvc-ui.version>
+		<springdoc-openapi-starter-webmvc-ui.version>2.8.14</springdoc-openapi-starter-webmvc-ui.version>
 
 		<!-- BOM kanopus versions -->
-		<klib-common.version>3.57.0</klib-common.version>
-		<klib-data-jdbc.version>3.57.0</klib-data-jdbc.version>
-		<klib-deploy-sql.version>3.57.0</klib-deploy-sql.version>
-		<klib-excel.version>3.57.0</klib-excel.version>
-		<klib-pdf.version>3.57.0</klib-pdf.version>
-		<klib-rest-template.version>3.57.0</klib-rest-template.version>
-		<klib-sii.version>3.57.0</klib-sii.version>
-		<klib-sii-iva.version>3.57.0</klib-sii-iva.version>
+		<klib-common.version>3.58.0</klib-common.version>
+		<klib-data-jdbc.version>3.58.0</klib-data-jdbc.version>
+		<klib-deploy-sql.version>3.58.0</klib-deploy-sql.version>
+		<klib-excel.version>3.58.0</klib-excel.version>
+		<klib-pdf.version>3.58.0</klib-pdf.version>
+		<klib-rest-template.version>3.58.0</klib-rest-template.version>
+		<klib-sii.version>3.58.0</klib-sii.version>
+		<klib-sii-iva.version>3.58.0</klib-sii-iva.version>
 
 		<!-- plugins versions -->
 		<central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
@@ -49,7 +49,7 @@
 		<maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
 		<proguard-maven-plugin.version>2.6.1</proguard-maven-plugin.version>
 		<versions-maven-plugin.version>2.19.1</versions-maven-plugin.version>
-		<maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+		<maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
 
 		<!-- behavior configuration -->
 		<maven.test.skip>false</maven.test.skip>
@@ -214,6 +214,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 		</dependency>
 	</dependencies>
 

@@ -1,13 +1,13 @@
 ![Logo](https://www.kanopus.cl/admin/javax.faces.resource/images/logo-gray.png.xhtml?ln=paradise-layout)
 
-
 [![Maven Central](https://img.shields.io/maven-central/v/cl.kanopus/kanopus-boot-parent.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/cl.kanopus/kanopus-boot-parent)
 
 ## 📌 Overview
 
-**Kanopus Boot Parent**  is the **central parent POM** for projects in the **Kanopus ecosystem** that build on top of **Spring Boot**.
-It aggregates shared configuration, aligns dependency versions, and provides a consistent foundation for libraries and applications.
-
+**Kanopus Boot Parent**  is the **central parent POM** for projects in the **Kanopus ecosystem** that build on top of *
+*Spring Boot**.
+It aggregates shared configuration, aligns dependency versions, and provides a consistent foundation for libraries and
+applications.
 
 ## ✨ Features
 
@@ -23,26 +23,24 @@ Eliminates repetitive setup across multiple modules and repositories.
 🧩 Spring Boot alignment
 Ensures compatibility with the selected Spring Boot release train.
 
-
 ## 🚀 Usage
 
 To use this parent in your Maven project, add the following to your `pom.xml`:
 
 ```xml
+
 <parent>
-  <groupId>cl.kanopus</groupId>
-  <artifactId>kanopus-boot-parent</artifactId>
-  <version>3.5.7</version>
+	<groupId>cl.kanopus</groupId>
+	<artifactId>kanopus-boot-parent</artifactId>
+	<version>3.58.0</version>
 </parent>
 
 ```
-
 
 ## 📚 When to use
 
 Use Kanopus Boot Parent for modules that rely on Spring Boot.
 For projects without Spring Boot, use kanopus-core-parent
-
 
 ## Authors
 
