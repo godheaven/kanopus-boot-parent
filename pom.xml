@@ -413,6 +413,7 @@
 									<exclude>**/*Response*.class</exclude>
 									<exclude>**/*VO*.class</exclude>
 									<exclude>**/*Entity*.class</exclude>
+									<exclude>**/*Exception*.class</exclude>
 									<exclude>**/package-info.class</exclude>
 								</excludes>
 							</configuration>
@@ -444,6 +445,7 @@
 											<exclude>**/*Response*.class</exclude>
 											<exclude>**/*VO*.class</exclude>
 											<exclude>**/*Entity*.class</exclude>
+											<exclude>**/*Exception*.class</exclude>
 											<exclude>**/package-info.class</exclude>
 										</excludes>
 									</rule>
