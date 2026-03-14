@@ -37,6 +37,15 @@ integration test code as well as unit tests. The minimum overall coverage thresh
 The JaCoCo check is intended to run during the `verify` phase and requires the JaCoCo execution data file (for example
 `target/jacoco.exec`) produced when tests run.
 
+🧹 Automatic code formatting
+Integration with Spotless and Google Java Format (AOSP style, 4 spaces indent) to maintain consistent styling.
+
+🔍 Security validation
+Integrated Snyk plugin to locate vulnerabilities and security issues automatically.
+
+📊 Code quality validation
+Integrated Sonar scanner plugin for comprehensive code analysis.
+
 ## ⚙️ Configurable properties
 
 You can adjust the build behavior using the following Maven properties (default values shown):
@@ -54,6 +63,15 @@ You can adjust the build behavior using the following Maven properties (default 
 - `jacoco.minimum.coverage` (default: `0.80`)
     - Minimum overall coverage threshold (e.g. `0.80` = 80%). The JaCoCo check will fail the build if total coverage is
       below this value.
+
+- `spotless.check.skip` (default: `false`)
+    - Controls whether the Spotless plugin validation should be skipped during the build.
+
+- `snyk.skip` (default: `true`)
+    - Controls whether the Snyk vulnerability check should be skipped.
+
+- `sonar.skip` (default: `true`)
+    - Controls whether the Sonar validation plugin should be skipped during the verification phase.
 
 ### Examples
 
@@ -75,6 +93,33 @@ mvn -Djacoco.minimum.coverage=0.90 verify
 mvn -Dmaven.test.skip=true package
 ```
 
+### Running Snyk and SonarQube Validations
+
+Both Snyk and SonarQube require credentials to authenticate with their respective servers.
+
+To run these validations, you need to configure the following environment variables:
+
+- `SNYK_TOKEN`: Your API token generated from your Snyk account.
+- `SONAR_TOKEN`: Your API token generated from your SonarQube server.
+
+Then you can execute Maven and disable the skip flag:
+
+**Linux/macOS:**
+
+```bash
+export SNYK_TOKEN="your-snyk-token"
+export SONAR_TOKEN="your-sonar-token"
+mvn verify -Dsnyk.skip=false -Dsonar.skip=false
+```
+
+**Windows (PowerShell):**
+
+```powershell
+$env:SNYK_TOKEN="your-snyk-token"
+$env:SONAR_TOKEN="your-sonar-token"
+mvn verify -Dsnyk.skip=false -Dsonar.skip=false
+```
+
 ## 🚀 Usage
 
 To use this parent in your Maven project, add the following to your `pom.xml`:
@@ -84,7 +129,7 @@ To use this parent in your Maven project, add the following to your `pom.xml`:
 <parent>
 	<groupId>cl.kanopus</groupId>
 	<artifactId>kanopus-boot-parent</artifactId>
-	<version>3.59.0</version>
+	<version>4.03.0</version>
 </parent>
 
 ```
