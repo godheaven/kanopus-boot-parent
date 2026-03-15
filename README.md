@@ -11,85 +11,87 @@ applications.
 
 ## ✨ Features
 
-📦 Dependency management
-Centralized versions for commonly used libraries (Spring Boot, Lombok, JUnit, Mockito, etc.).
+This project provides a curated parent POM for Spring Boot modules with a set of common, configurable build
+enhancements. The highlights below combine recent improvements and the long-standing capabilities provided by
+the parent POM.
 
-🔧 Build consistency
-Standardized configuration for compiler, testing, and plugin management.
+- 📦 Dependency management — Centralized versions for common libraries (Spring Boot, Lombok, JUnit, Mockito, etc.)
 
-♻️ Reduced duplication
-Eliminates repetitive setup across multiple modules and repositories.
+- 🔧 Build consistency — Shared configuration for compiler, test, and plugin behavior across modules to reduce
+  accidental divergence.
 
-🧩 Spring Boot alignment
-Ensures compatibility with the selected Spring Boot release train.
+- ♻️ Reduced duplication — Saves time by removing repetitive Maven configuration from individual projects.
 
-🔐 Configurable license enforcement
-Optional enforcement of license headers for source files. This behavior can be toggled so consumers can enable or skip
-license checks during the build (see configurable properties).
+- 🧩 Spring Boot alignment — Ensures compatibility with the selected Spring Boot release train and healthy
+  dependency alignment.
 
-🛡️ Configurable ProGuard packaging (obfuscation/optimization)
-Optional ProGuard-based packaging to obfuscate and optimize artifacts during the build. This step is configurable and
-can be skipped for faster iterative builds or enabled for release packaging.
+- 🔐 Configurable licensing — Class and source license header checks are provided but optional. Consumers can
+  enable or skip license verification per-build (see Configurable properties).
 
-📈 Automatic coverage for integration tests
-Integration tests are included in the coverage verification pipeline so modules can enforce a minimum coverage level for
-integration test code as well as unit tests. The minimum overall coverage threshold is configurable (default: `0.80`).
-The JaCoCo check is intended to run during the `verify` phase and requires the JaCoCo execution data file (for example
-`target/jacoco.exec`) produced when tests run.
+- 🛡️ Configurable ProGuard packaging — Optional ProGuard-based obfuscation/optimization step for release
+  artifacts. This is configurable so you can skip it during iterative development or enable it for published
+  releases.
 
-🧹 Automatic code formatting
-Integration with Spotless and Google Java Format (AOSP style, 4 spaces indent) to maintain consistent styling.
+- 📈 Integration test coverage (automated) — Integration tests are included in coverage collection so the overall
+  coverage (unit + integration) can be enforced. The default minimum overall coverage is 80% (configurable).
+  The JaCoCo check runs during the `verify` phase and requires the JaCoCo execution data file (for example
+  `target/jacoco.exec`) which is produced when tests actually run.
 
-🔍 Security validation
-Integrated Snyk plugin to locate vulnerabilities and security issues automatically.
+- 🧹 Automatic code formatting — Spotless with Google Java Format (AOSP style, 4-space indent) to maintain
+  consistent code style across repositories.
 
-📊 Code quality validation
-Integrated Sonar scanner plugin for comprehensive code analysis.
+- 🔍 Security validation — Optional Snyk integration to locate known vulnerabilities in dependencies.
+
+- 📊 Code quality validation — Optional Sonar scanner integration for comprehensive static analysis.
+
+Notes:
+- Many build behaviors are opt-in/opt-out via Maven properties so maintainers can adapt the parent POM to their
+  CI/CD policies without forking.
+- If JaCoCo reports a missing exec file ("Skipping JaCoCo execution due to missing execution data file"), ensure
+  tests are executed (do not set `maven.test.skip=true`) and that the test phase which generates the JaCoCo data
+  is being run before `verify`.
+
 
 ## ⚙️ Configurable properties
 
-You can adjust the build behavior using the following Maven properties (default values shown):
+You can tune the parent POM's behavior with simple Maven properties. The table below summarizes the most
+important properties, their defaults, and quick guidance.
 
-- `maven.test.skip` (default: `false`)
-    - If set to `true`, Maven will skip executing tests. Keep it `false` to run tests and produce coverage data for
-      JaCoCo.
+| Property | Default | Description | Example |
+|---|---:|---|---|
+| `maven.test.skip` | `false` | If `true`, tests are skipped. Keep `false` to produce JaCoCo coverage data. | `-Dmaven.test.skip=false` |
+| `license.skip` | `true` | Skip license-header verification when `true`. | `-Dlicense.skip=true` |
+| `proguard.skip` | `true` | Skip ProGuard packaging/obfuscation when `true`. | `-Dproguard.skip=true` |
+| `jacoco.minimum.coverage` | `0.80` | Overall minimum coverage threshold (unit + integration). Build fails if coverage is below this value. | `-Djacoco.minimum.coverage=0.85` |
+| `spotless.check.skip` | `false` | Skip Spotless checks when `true`. Useful for quick local builds. | `-Dspotless.check.skip=true` |
+| `snyk.skip` | `true` | Skip Snyk vulnerability checks when `true`. | `-Dsnyk.skip=true` |
+| `sonar.skip` | `true` | Skip Sonar analysis during `verify` when `true`. | `-Dsonar.skip=true` |
 
-- `license.skip` (default: `true`)
-    - Controls whether license checks are skipped during the build.
+Important notes
+- To allow JaCoCo to collect execution data you must run tests (so keep `maven.test.skip=false`). If you see
+  "Skipping JaCoCo execution due to missing execution data file" it means the JaCoCo report data file (e.g.
+  `target/jacoco.exec`) was not produced — usually because tests did not run or ran in a different lifecycle that
+  didn't produce the expected output path.
+- Coverage threshold applies to the combined metric (unit + integration tests) and is configurable via
+  `jacoco.minimum.coverage`.
 
-- `proguard.skip` (default: `true`)
-    - Controls whether ProGuard (obfuscation/optimization) is skipped.
+Examples
 
-- `jacoco.minimum.coverage` (default: `0.80`)
-    - Minimum overall coverage threshold (e.g. `0.80` = 80%). The JaCoCo check will fail the build if total coverage is
-      below this value.
+Run full verification (default 80% coverage):
 
-- `spotless.check.skip` (default: `false`)
-    - Controls whether the Spotless plugin validation should be skipped during the build.
-
-- `snyk.skip` (default: `true`)
-    - Controls whether the Snyk vulnerability check should be skipped.
-
-- `sonar.skip` (default: `true`)
-    - Controls whether the Sonar validation plugin should be skipped during the verification phase.
-
-### Examples
-
-- Run the full verification including JaCoCo check (default threshold):
-
-```
+```bash
 mvn -Dmaven.test.skip=false verify
 ```
 
-- Run verify with a 90% coverage threshold:
+Run verify with a 90% coverage threshold:
 
-```
+```bash
 mvn -Djacoco.minimum.coverage=0.90 verify
 ```
 
-- Skip tests for a faster package step:
+Skip tests for a faster package step (no coverage data will be produced):
 
-```
+```bash
 mvn -Dmaven.test.skip=true package
 ```
 
