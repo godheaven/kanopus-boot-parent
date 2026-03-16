@@ -1,8 +1,10 @@
-![Logo](https://www.kanopus.cl/assets/kanopus-grey.png)
+<p align="left">
+  <img src="https://www.kanopus.cl/assets/kanopus_black.png" width="220"/>
+</p>
 
-[![Maven Central](https://img.shields.io/maven-central/v/cl.kanopus/kanopus-boot-parent.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/cl.kanopus/kanopus-boot-parent)
+![Maven](https://img.shields.io/maven-central/v/cl.kanopus/kanopus-boot-parent) ![License](https://img.shields.io/badge/license-Apache%20License,%20Version%202.0-blue) ![Java](https://img.shields.io/badge/java-17+-orange)
 
-## 📌 Overview
+# kanopus-boot-parent
 
 **Kanopus Boot Parent**  is the **central parent POM** for projects in the **Kanopus ecosystem** that build on top of *
 *Spring Boot**.
@@ -51,6 +53,19 @@ Notes:
   tests are executed (do not set `maven.test.skip=true`) and that the test phase which generates the JaCoCo data
   is being run before `verify`.
 
+## 🚀 Installation
+
+To use this parent in your Maven project, add the following to your `pom.xml`:
+
+```xml
+
+<parent>
+	<groupId>cl.kanopus</groupId>
+	<artifactId>kanopus-boot-parent</artifactId>
+	<version>4.03.0</version>
+</parent>
+
+```
 
 ## ⚙️ Configurable properties
 
@@ -75,7 +90,9 @@ Important notes
 - Coverage threshold applies to the combined metric (unit + integration tests) and is configurable via
   `jacoco.minimum.coverage`.
 
-Examples
+
+
+## 🚀 Usage Guide
 
 Run full verification (default 80% coverage):
 
@@ -122,36 +139,27 @@ $env:SONAR_TOKEN="your-sonar-token"
 mvn verify -Dsnyk.skip=false -Dsonar.skip=false
 ```
 
-## 🚀 Usage
-
-To use this parent in your Maven project, add the following to your `pom.xml`:
-
-```xml
-
-<parent>
-	<groupId>cl.kanopus</groupId>
-	<artifactId>kanopus-boot-parent</artifactId>
-	<version>4.03.0</version>
-</parent>
-
-```
-
 ## 📚 When to use
 
 Use Kanopus Boot Parent for modules that rely on Spring Boot.
 For projects without Spring Boot, use kanopus-core-parent
 
-## Authors
 
-- [@pabloandres.diazsaavedra](https://www.linkedin.com/in/pablo-diaz-saavedra-4b7b0522/)
+## 👤 Author
 
-## License
+**Pablo Andrés Díaz Saavedra** — Founder of **Kanopus – Estrellas del Software**
+
+Kanopus builds tools and platforms that simplify software development and DevOps processes.
+
+[GitHub](https://github.com/godheaven) | [LinkedIn](https://www.linkedin.com/in/pablo-diaz-saavedra-4b7b0522/) | [Website](https://kanopus.cl)
+
+## 📄 License
 
 This software is licensed under the Apache License, Version 2.0. See the LICENSE file for details.
 I hope you enjoy it.
 
 [![Apache License, Version 2.0](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://opensource.org/license/apache-2-0)
 
-## Support
+## 🛟 Support
 
-For support, email soporte@kanopus.cl
+For support or questions contact: 📧 [soporte@kanopus.cl](mailto:soporte@kanopus.cl)
