@@ -11,7 +11,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cl.kanopus</groupId>
 	<artifactId>kanopus-boot-parent</artifactId>
-	<version>4.03.0</version>
+	<version>4.03.1</version>
 	<packaging>pom</packaging>
 
 	<name>Kanopus Boot Parent</name>
@@ -34,14 +34,14 @@
 
 
 		<!-- BOM kanopus versions -->
-		<klib-common.version>4.03.0</klib-common.version>
-		<klib-data-jdbc.version>4.03.0</klib-data-jdbc.version>
-		<klib-deploy-sql.version>4.03.0</klib-deploy-sql.version>
-		<klib-excel.version>4.03.0</klib-excel.version>
-		<klib-pdf.version>4.03.0</klib-pdf.version>
-		<klib-rest-template.version>4.03.0</klib-rest-template.version>
-		<klib-sii.version>4.03.0</klib-sii.version>
-		<klib-sii-iva.version>4.03.0</klib-sii-iva.version>
+		<klib-common.version>4.03.1</klib-common.version>
+		<klib-data-jdbc.version>4.03.1</klib-data-jdbc.version>
+		<klib-deploy-sql.version>4.03.1</klib-deploy-sql.version>
+		<klib-excel.version>4.03.1</klib-excel.version>
+		<klib-pdf.version>4.03.1</klib-pdf.version>
+		<klib-rest-template.version>4.03.1</klib-rest-template.version>
+		<klib-sii.version>4.03.1</klib-sii.version>
+		<klib-sii-iva.version>4.03.1</klib-sii-iva.version>
 
 		<!-- plugins versions -->
 		<central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
@@ -287,7 +287,7 @@
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 		</dependency>
 
-		<!-- JSON WEB TOKEN (jjwt 0.11.5: api + impl + jackson at runtime) -->
+		<!-- JSON WEB TOKEN (api + impl + jackson at runtime) -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-api</artifactId>
@@ -302,6 +302,19 @@
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt-jackson</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
 		</dependency>
 
 	</dependencies>
@@ -344,91 +357,14 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${maven-compiler-plugin.version}</version>
-					<configuration>
-						<release>${java.version}</release>
-						<excludes>
-							<exclude>**/package-info.java</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
 
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>${maven-source-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven-javadoc-plugin.version}</version>
+					<groupId>org.sonatype.central</groupId>
+					<artifactId>central-publishing-maven-plugin</artifactId>
+					<version>${central-publishing-maven-plugin.version}</version>
+					<extensions>true</extensions>
 					<configuration>
-						<failOnError>false</failOnError>
-						<doclint>none</doclint> <!-- evita doclint con Java 8+ -->
-						<source>${java.version}</source>
-					</configuration>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven-surfire-plugin.version}</version>
-					<configuration>
-						<skipTests>${maven.test.skip}</skipTests>
-						<!-- Ensure JaCoCo agent is attached to forked test JVMs -->
-						<forkCount>1</forkCount>
-						<reuseForks>true</reuseForks>
-						<argLine>${argLine}</argLine>
-						<includes>
-							<include>**/*Test.java</include>
-						</includes>
-						<excludes>
-							<exclude>**/*IT.java</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${maven-failsafe-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>integration-tests</id>
-							<goals>
-								<goal>integration-test</goal>
-								<goal>verify</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<!-- Ensure JaCoCo agent is attached to integration test JVMs -->
-						<forkCount>1</forkCount>
-						<reuseForks>true</reuseForks>
-						<argLine>${argLine}</argLine>
-						<includes>
-							<include>**/*IT.java</include>
-						</includes>
+						<publishingServerId>central</publishingServerId>
 					</configuration>
 				</plugin>
 
@@ -468,7 +404,6 @@
 									<exclude>**/package-info.class</exclude>
 								</excludes>
 							</configuration>
-
 						</execution>
 						<execution>
 							<id>check</id>
@@ -536,6 +471,116 @@
 				</plugin>
 
 				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+					<configuration>
+						<release>${java.version}</release>
+						<excludes>
+							<exclude>**/package-info.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>${maven-enforcer-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>enforce-maven-min-version</id>
+							<goals>
+								<goal>enforce</goal>
+							</goals>
+							<configuration>
+								<rules>
+									<requireMavenVersion>
+										<version>[3.6.3,)</version>
+									</requireMavenVersion>
+								</rules>
+								<fail>true</fail>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${maven-failsafe-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>integration-tests</id>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<!-- Ensure JaCoCo agent is attached to integration test JVMs -->
+						<forkCount>1</forkCount>
+						<reuseForks>true</reuseForks>
+						<argLine>${argLine}</argLine>
+						<includes>
+							<include>**/*IT.java</include>
+						</includes>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven-javadoc-plugin.version}</version>
+					<configuration>
+						<failOnError>false</failOnError>
+						<doclint>none</doclint> <!-- evita doclint con Java 8+ -->
+						<source>${java.version}</source>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surfire-plugin.version}</version>
+					<configuration>
+						<skipTests>${maven.test.skip}</skipTests>
+						<!-- Ensure JaCoCo agent is attached to forked test JVMs -->
+						<forkCount>1</forkCount>
+						<reuseForks>true</reuseForks>
+						<argLine>${argLine}</argLine>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+						<excludes>
+							<exclude>**/*IT.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+
+				<plugin>
 					<groupId>com.github.wvengen</groupId>
 					<artifactId>proguard-maven-plugin</artifactId>
 					<version>${proguard-maven-plugin.version}</version>
@@ -557,17 +602,90 @@
 					</configuration>
 				</plugin>
 
+				<!-- SNYK VALIDATION PLUGIN -->
+				<plugin>
+					<groupId>io.snyk</groupId>
+					<artifactId>snyk-maven-plugin</artifactId>
+					<version>${snyk-maven-plugin.version}</version>
+					<configuration>
+						<skip>${snyk.skip}</skip>
+					</configuration>
+					<executions>
+						<execution>
+							<id>snyk-test</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>test</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- SONAR VALIDATION PLUGIN -->
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>${sonar-maven-plugin.version}</version>
+					<configuration>
+						<skip>${sonar.skip}</skip>
+					</configuration>
+					<executions>
+						<execution>
+							<id>sonar-test</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>sonar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- SPOTLESS FORMATTER PLUGIN -->
+				<plugin>
+					<groupId>com.diffplug.spotless</groupId>
+					<artifactId>spotless-maven-plugin</artifactId>
+					<version>${spotless-maven-plugin.version}</version>
+					<configuration>
+						<java>
+							<googleJavaFormat>
+								<!-- AOSP mode sets indent to 4 spaces securely under Google format -->
+								<style>AOSP</style>
+								<reflowLongStrings>false</reflowLongStrings>
+							</googleJavaFormat>
+							<!-- Note: Google Java Format strictly enforces its own limit of 100 characters for lines. -->
+							<!-- Spotless does not allow altering this specifically to a custom 600 character value in GJF mode. -->
+							<!-- If you want no line wrapping at all, you might need to reconsider using googleJavaFormat and instead provide an <eclipse> format definition file. -->
+						</java>
+					</configuration>
+					<executions>
+						<execution>
+							<id>spotless-check</id>
+							<phase>verify</phase>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>versions-maven-plugin</artifactId>
+					<version>${versions-maven-plugin.version}</version>
+					<configuration>
+						<excludes>
+							<exclude>org.apache.commons:commons-collections4</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+
 			</plugins>
 		</pluginManagement>
 
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -578,116 +696,37 @@
 				<artifactId>license-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+			</plugin>
+			<plugin>
 				<groupId>com.github.wvengen</groupId>
 				<artifactId>proguard-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>org.sonatype.central</groupId>
-				<artifactId>central-publishing-maven-plugin</artifactId>
-				<version>${central-publishing-maven-plugin.version}</version>
-				<extensions>true</extensions>
-				<configuration>
-					<publishingServerId>central</publishingServerId>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<version>${versions-maven-plugin.version}</version>
-				<configuration>
-					<excludes>
-						<exclude>org.apache.commons:commons-collections4</exclude>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-				<version>${maven-enforcer-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>enforce-maven-min-version</id>
-						<goals>
-							<goal>enforce</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<requireMavenVersion>
-									<version>[3.6.3,)</version>
-								</requireMavenVersion>
-							</rules>
-							<fail>true</fail>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- SPOTLESS FORMATTER PLUGIN -->
-			<plugin>
-				<groupId>com.diffplug.spotless</groupId>
-				<artifactId>spotless-maven-plugin</artifactId>
-				<version>${spotless-maven-plugin.version}</version>
-				<configuration>
-					<java>
-						<googleJavaFormat>
-							<style>AOSP</style> <!-- AOSP mode sets indent to 4 spaces securely under Google format -->
-							<reflowLongStrings>false</reflowLongStrings>
-						</googleJavaFormat>
-						<!-- Note: Google Java Format strictly enforces its own limit of 100 characters for lines. -->
-						<!-- Spotless does not allow altering this specifically to a custom 600 character value in GJF mode. -->
-						<!-- If you want no line wrapping at all, you might need to reconsider using googleJavaFormat and instead provide an <eclipse> format definition file. -->
-					</java>
-				</configuration>
-				<executions>
-					<execution>
-						<id>spotless-check</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- SNYK VALIDATION PLUGIN -->
-			<plugin>
 				<groupId>io.snyk</groupId>
 				<artifactId>snyk-maven-plugin</artifactId>
-				<version>${snyk-maven-plugin.version}</version>
-				<configuration>
-					<skip>${snyk.skip}</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>snyk-test</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
-
-			<!-- SONAR VALIDATION PLUGIN -->
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>${sonar-maven-plugin.version}</version>
-				<configuration>
-					<skip>${sonar.skip}</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>sonar-test</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sonar</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
-
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
 

@@ -1,5 +1,5 @@
-<p align="left">
-  <img src="https://www.kanopus.cl/assets/kanopus_black.png" width="220"/>
+<p style="text-align:left">
+  <img src="https://www.kanopus.cl/assets/kanopus_black.png" width="220" alt="Kanopus logo"/>
 </p>
 
 ![Maven](https://img.shields.io/maven-central/v/cl.kanopus/kanopus-boot-parent) ![License](https://img.shields.io/badge/license-Apache%20License,%20Version%202.0-blue) ![Java](https://img.shields.io/badge/java-17+-orange)
@@ -47,6 +47,7 @@ the parent POM.
 - 📊 Code quality validation — Optional Sonar scanner integration for comprehensive static analysis.
 
 Notes:
+
 - Many build behaviors are opt-in/opt-out via Maven properties so maintainers can adapt the parent POM to their
   CI/CD policies without forking.
 - If JaCoCo reports a missing exec file ("Skipping JaCoCo execution due to missing execution data file"), ensure
@@ -62,7 +63,7 @@ To use this parent in your Maven project, add the following to your `pom.xml`:
 <parent>
 	<groupId>cl.kanopus</groupId>
 	<artifactId>kanopus-boot-parent</artifactId>
-	<version>4.03.0</version>
+	<version>4.03.1</version>
 </parent>
 
 ```
@@ -72,25 +73,24 @@ To use this parent in your Maven project, add the following to your `pom.xml`:
 You can tune the parent POM's behavior with simple Maven properties. The table below summarizes the most
 important properties, their defaults, and quick guidance.
 
-| Property | Default | Description | Example |
-|---|---:|---|---|
-| `maven.test.skip` | `false` | If `true`, tests are skipped. Keep `false` to produce JaCoCo coverage data. | `-Dmaven.test.skip=false` |
-| `license.skip` | `true` | Skip license-header verification when `true`. | `-Dlicense.skip=true` |
-| `proguard.skip` | `true` | Skip ProGuard packaging/obfuscation when `true`. | `-Dproguard.skip=true` |
-| `jacoco.minimum.coverage` | `0.80` | Overall minimum coverage threshold (unit + integration). Build fails if coverage is below this value. | `-Djacoco.minimum.coverage=0.85` |
-| `spotless.check.skip` | `false` | Skip Spotless checks when `true`. Useful for quick local builds. | `-Dspotless.check.skip=true` |
-| `snyk.skip` | `true` | Skip Snyk vulnerability checks when `true`. | `-Dsnyk.skip=true` |
-| `sonar.skip` | `true` | Skip Sonar analysis during `verify` when `true`. | `-Dsonar.skip=true` |
+| Property                  | Default | Description                                                                                           | Example                          |
+|---------------------------|--------:|-------------------------------------------------------------------------------------------------------|----------------------------------|
+| `maven.test.skip`         | `false` | If `true`, tests are skipped. Keep `false` to produce JaCoCo coverage data.                           | `-Dmaven.test.skip=false`        |
+| `license.skip`            |  `true` | Skip license-header verification when `true`.                                                         | `-Dlicense.skip=true`            |
+| `proguard.skip`           |  `true` | Skip ProGuard packaging/obfuscation when `true`.                                                      | `-Dproguard.skip=true`           |
+| `jacoco.minimum.coverage` |  `0.80` | Overall minimum coverage threshold (unit + integration). Build fails if coverage is below this value. | `-Djacoco.minimum.coverage=0.85` |
+| `spotless.check.skip`     | `false` | Skip Spotless checks when `true`. Useful for quick local builds.                                      | `-Dspotless.check.skip=true`     |
+| `snyk.skip`               |  `true` | Skip Snyk vulnerability checks when `true`.                                                           | `-Dsnyk.skip=true`               |
+| `sonar.skip`              |  `true` | Skip Sonar analysis during `verify` when `true`.                                                      | `-Dsonar.skip=true`              |
 
 Important notes
+
 - To allow JaCoCo to collect execution data you must run tests (so keep `maven.test.skip=false`). If you see
   "Skipping JaCoCo execution due to missing execution data file" it means the JaCoCo report data file (e.g.
   `target/jacoco.exec`) was not produced — usually because tests did not run or ran in a different lifecycle that
   didn't produce the expected output path.
 - Coverage threshold applies to the combined metric (unit + integration tests) and is configurable via
   `jacoco.minimum.coverage`.
-
-
 
 ## 🚀 Usage Guide
 
@@ -144,12 +144,12 @@ mvn verify -Dsnyk.skip=false -Dsonar.skip=false
 Use Kanopus Boot Parent for modules that rely on Spring Boot.
 For projects without Spring Boot, use kanopus-core-parent
 
-
 ## 👤 Author
 
 ⭐**Pablo Andrés Díaz Saavedra** — Founder of **Kanopus – Software Guided by the Stars**⭐
 
-Kanopus is building a constellation of developers creating tools, libraries and platforms that simplify software engineering.
+Kanopus is building a constellation of developers creating tools, libraries and platforms that simplify software
+engineering.
 
 [GitHub](https://github.com/godheaven) | [LinkedIn](https://www.linkedin.com/in/pablo-diaz-saavedra-4b7b0522/) | [Website](https://kanopus.cl)
 
