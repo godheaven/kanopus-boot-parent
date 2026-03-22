@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.3</version>
+		<version>4.0.4</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cl.kanopus</groupId>
 	<artifactId>kanopus-boot-parent</artifactId>
-	<version>4.03.1</version>
+	<version>4.04.0</version>
 	<packaging>pom</packaging>
 
 	<name>Kanopus Boot Parent</name>
@@ -20,13 +20,10 @@
 
 	<properties>
 		<java.version>17</java.version>
+		<maven.compiler.release>17</maven.compiler.release>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<!-- SNYK Vulnerabilities -->
-		<jackson-annotations.version>2.21</jackson-annotations.version>
-		<jackson-core.version>2.21.1</jackson-core.version>
-		<jackson-databind.version>2.21.1</jackson-databind.version>
-		<spring-boot-starter-web.version>4.0.3</spring-boot-starter-web.version>
+		<spring-boot-starter-web.version>4.0.4</spring-boot-starter-web.version>
 
 		<!-- BOM versions -->
 		<jjwt.version>0.13.0</jjwt.version>
@@ -34,14 +31,14 @@
 
 
 		<!-- BOM kanopus versions -->
-		<klib-common.version>4.03.1</klib-common.version>
-		<klib-data-jdbc.version>4.03.1</klib-data-jdbc.version>
-		<klib-deploy-sql.version>4.03.1</klib-deploy-sql.version>
-		<klib-excel.version>4.03.1</klib-excel.version>
-		<klib-pdf.version>4.03.1</klib-pdf.version>
-		<klib-rest-template.version>4.03.1</klib-rest-template.version>
-		<klib-sii.version>4.03.1</klib-sii.version>
-		<klib-sii-iva.version>4.03.1</klib-sii-iva.version>
+		<klib-common.version>4.04.0</klib-common.version>
+		<klib-data-jdbc.version>4.04.0</klib-data-jdbc.version>
+		<klib-deploy-sql.version>4.04.0</klib-deploy-sql.version>
+		<klib-excel.version>4.04.0</klib-excel.version>
+		<klib-pdf.version>4.04.0</klib-pdf.version>
+		<klib-rest-template.version>4.04.0</klib-rest-template.version>
+		<klib-sii.version>4.04.0</klib-sii.version>
+		<klib-sii-iva.version>4.04.0</klib-sii-iva.version>
 
 		<!-- plugins versions -->
 		<central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
@@ -76,23 +73,6 @@
 	<!-- BOM integrate -->
 	<dependencyManagement>
 		<dependencies>
-			<!-- Explicitly manage patched Jackson artifacts to avoid inheriting Snyk-reported vulnerabilities. -->
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-annotations</artifactId>
-				<version>${jackson-annotations.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>${jackson-core.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.fasterxml.jackson.core</groupId>
-				<artifactId>jackson-databind</artifactId>
-				<version>${jackson-databind.version}</version>
-			</dependency>
-
 			<dependency>
 				<groupId>io.jsonwebtoken</groupId>
 				<artifactId>jjwt-api</artifactId>
@@ -109,15 +89,6 @@
 				<artifactId>jjwt-jackson</artifactId>
 				<version>${jjwt.version}</version>
 				<scope>runtime</scope>
-				<!-- CVE fix: SNYK-JAVA-COMFASTERXMLJACKSONCORE-15365924 (CWE-770 / CVSS 8.7)
-				     Exclude jjwt-jackson's bundled jackson-core and jackson-databind so that
-				     Spring Boot BOM provides the patched version instead. -->
-				<exclusions>
-					<exclusion>
-						<groupId>com.fasterxml.jackson.core</groupId>
-						<artifactId>jackson-core</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 
 			<dependency>
@@ -186,31 +157,12 @@
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 				<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
-				<!-- CVE fix: SNYK-JAVA-COMFASTERXMLJACKSONCORE-15365924 (CWE-770 / CVSS 8.7)
-				     Exclude jjwt-jackson's bundled jackson-core and jackson-databind so that
-				     Spring Boot BOM provides the patched version instead. -->
-				<exclusions>
-					<exclusion>
-						<groupId>com.fasterxml.jackson.core</groupId>
-						<artifactId>jackson-core</artifactId>
-					</exclusion>
-				</exclusions>
-
 			</dependency>
 
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
 				<version>${spring-boot-starter-web.version}</version>
-				<!-- CVE fix: SNYK-JAVA-COMFASTERXMLJACKSONCORE-15365924 (CWE-770 / CVSS 8.7)
-				     Exclude jjwt-jackson's bundled jackson-core and jackson-databind so that
-				     Spring Boot BOM provides the patched version instead. -->
-				<exclusions>
-					<exclusion>
-						<groupId>tools.jackson.core</groupId>
-						<artifactId>jackson-core</artifactId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -257,30 +209,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.skyscreamer</groupId>
-					<artifactId>jsonassert</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
 		<!-- SPRING DOCUMENTATION (springdoc 2.x starter para Spring Boot 3) -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
@@ -305,16 +233,39 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-annotations</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-core</artifactId>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<scope>test</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.skyscreamer</groupId>
+					<artifactId>jsonassert</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 	</dependencies>
