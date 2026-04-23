@@ -11,7 +11,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cl.kanopus</groupId>
 	<artifactId>kanopus-boot-parent</artifactId>
-	<version>4.05.0</version>
+	<version>4.05.1</version>
 	<packaging>pom</packaging>
 
 	<name>Kanopus Boot Parent</name>
@@ -26,18 +26,24 @@
 		<spring-boot-starter-web.version>4.0.5</spring-boot-starter-web.version>
 
 		<!--  BOM versions -->
-		<springdoc-openapi-starter-webmvc-ui.version>2.8.14</springdoc-openapi-starter-webmvc-ui.version>
+		<jackson-core.version>3.1.1</jackson-core.version>
+		<spring-framework.version>7.0.7</spring-framework.version>
+		<spring-security.version>7.0.5</spring-security.version>
+		<tomcat.version>11.0.21</tomcat.version>
+		<thymeleaf.version>3.1.4.RELEASE</thymeleaf.version>
+		<springdoc-openapi-starter-webmvc-ui.version>3.0.0</springdoc-openapi-starter-webmvc-ui.version>
 
 
 		<!-- BOM kanopus versions -->
-		<klib-common.version>4.05.0</klib-common.version>
-		<klib-data-jdbc.version>4.05.0</klib-data-jdbc.version>
-		<klib-deploy-sql.version>4.05.0</klib-deploy-sql.version>
-		<klib-excel.version>4.05.0</klib-excel.version>
-		<klib-pdf.version>4.05.0</klib-pdf.version>
-		<klib-rest-template.version>4.05.0</klib-rest-template.version>
-		<klib-sii.version>4.05.0</klib-sii.version>
-		<klib-sii-iva.version>4.05.0</klib-sii-iva.version>
+		<klib-common.version>4.05.1</klib-common.version>
+		<klib-data-jdbc.version>4.05.1</klib-data-jdbc.version>
+		<klib-deploy-sql.version>4.05.1</klib-deploy-sql.version>
+		<klib-excel.version>4.05.1</klib-excel.version>
+		<klib-pdf.version>4.05.1</klib-pdf.version>
+		<klib-rest-template.version>4.05.1</klib-rest-template.version>
+		<klib-license-validator.version>4.05.1</klib-license-validator.version>
+		<klib-sii.version>4.05.1</klib-sii.version>
+		<klib-sii-iva.version>4.05.1</klib-sii-iva.version>
 
 		<!-- plugins versions -->
 		<central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
@@ -124,6 +130,12 @@
 			</dependency>
 
 			<dependency>
+				<groupId>cl.kanopus.lib</groupId>
+				<artifactId>klib-license-validator</artifactId>
+				<version>${klib-license-validator.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>cl.kanopus.util</groupId>
 				<artifactId>klib-sii-iva</artifactId>
 				<version>${klib-sii-iva.version}</version>
@@ -133,6 +145,12 @@
 				<groupId>cl.kanopus.util</groupId>
 				<artifactId>klib-sii</artifactId>
 				<version>${klib-sii.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>tools.jackson.core</groupId>
+				<artifactId>jackson-core</artifactId>
+				<version>${jackson-core.version}</version>
 			</dependency>
 
 			<dependency>
@@ -185,16 +203,17 @@
 	</scm>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
 
 		<!-- SPRING DOCUMENTATION (springdoc 2.x starter para Spring Boot 3) -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -210,18 +229,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.skyscreamer</groupId>
-					<artifactId>jsonassert</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<scope>test</scope>
@@ -231,6 +238,18 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.skyscreamer</groupId>
+					<artifactId>jsonassert</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 	</dependencies>
@@ -275,12 +294,90 @@
 			<plugins>
 
 				<plugin>
-					<groupId>org.sonatype.central</groupId>
-					<artifactId>central-publishing-maven-plugin</artifactId>
-					<version>${central-publishing-maven-plugin.version}</version>
-					<extensions>true</extensions>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
 					<configuration>
-						<publishingServerId>central</publishingServerId>
+						<release>${java.version}</release>
+						<excludes>
+							<exclude>**/package-info.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<version>${maven-source-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>attach-sources</id>
+							<goals>
+								<goal>jar-no-fork</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven-javadoc-plugin.version}</version>
+					<configuration>
+						<failOnError>false</failOnError>
+						<doclint>none</doclint> <!-- evita doclint con Java 8+ -->
+						<source>${java.version}</source>
+					</configuration>
+					<executions>
+						<execution>
+							<id>attach-javadocs</id>
+							<goals>
+								<goal>jar</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surfire-plugin.version}</version>
+					<configuration>
+						<skipTests>${maven.test.skip}</skipTests>
+						<!-- Ensure JaCoCo agent is attached to forked test JVMs -->
+						<forkCount>1</forkCount>
+						<reuseForks>true</reuseForks>
+						<argLine>${argLine}</argLine>
+						<includes>
+							<include>**/*Test.java</include>
+						</includes>
+						<excludes>
+							<exclude>**/*IT.java</exclude>
+						</excludes>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${maven-failsafe-plugin.version}</version>
+					<executions>
+						<execution>
+							<id>integration-tests</id>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+					<configuration>
+						<!-- Ensure JaCoCo agent is attached to integration test JVMs -->
+						<forkCount>1</forkCount>
+						<reuseForks>true</reuseForks>
+						<argLine>${argLine}</argLine>
+						<includes>
+							<include>**/*IT.java</include>
+						</includes>
 					</configuration>
 				</plugin>
 
@@ -357,6 +454,16 @@
 					</executions>
 				</plugin>
 
+				<plugin>
+					<groupId>org.sonatype.central</groupId>
+					<artifactId>central-publishing-maven-plugin</artifactId>
+					<version>${central-publishing-maven-plugin.version}</version>
+					<extensions>true</extensions>
+					<configuration>
+						<publishingServerId>central</publishingServerId>
+					</configuration>
+				</plugin>
+
 				<!-- It is declared here for children to inherit, but the header is controlled with 'license.skip' -->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -388,18 +495,6 @@
 
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${maven-compiler-plugin.version}</version>
-					<configuration>
-						<release>${java.version}</release>
-						<excludes>
-							<exclude>**/package-info.java</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-enforcer-plugin</artifactId>
 					<version>${maven-enforcer-plugin.version}</version>
 					<executions>
@@ -418,82 +513,6 @@
 							</configuration>
 						</execution>
 					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${maven-failsafe-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>integration-tests</id>
-							<goals>
-								<goal>integration-test</goal>
-								<goal>verify</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<!-- Ensure JaCoCo agent is attached to integration test JVMs -->
-						<forkCount>1</forkCount>
-						<reuseForks>true</reuseForks>
-						<argLine>${argLine}</argLine>
-						<includes>
-							<include>**/*IT.java</include>
-						</includes>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven-javadoc-plugin.version}</version>
-					<configuration>
-						<failOnError>false</failOnError>
-						<doclint>none</doclint> <!-- evita doclint con Java 8+ -->
-						<source>${java.version}</source>
-					</configuration>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>${maven-source-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>attach-sources</id>
-							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven-surfire-plugin.version}</version>
-					<configuration>
-						<skipTests>${maven.test.skip}</skipTests>
-						<!-- Ensure JaCoCo agent is attached to forked test JVMs -->
-						<forkCount>1</forkCount>
-						<reuseForks>true</reuseForks>
-						<argLine>${argLine}</argLine>
-						<includes>
-							<include>**/*Test.java</include>
-						</includes>
-						<excludes>
-							<exclude>**/*IT.java</exclude>
-						</excludes>
-					</configuration>
 				</plugin>
 
 				<plugin>
@@ -518,131 +537,114 @@
 					</configuration>
 				</plugin>
 
-				<!-- SNYK VALIDATION PLUGIN -->
-				<plugin>
-					<groupId>io.snyk</groupId>
-					<artifactId>snyk-maven-plugin</artifactId>
-					<version>${snyk-maven-plugin.version}</version>
-					<configuration>
-						<skip>${snyk.skip}</skip>
-					</configuration>
-					<executions>
-						<execution>
-							<id>snyk-test</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>test</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<!-- SONAR VALIDATION PLUGIN -->
-				<plugin>
-					<groupId>org.sonarsource.scanner.maven</groupId>
-					<artifactId>sonar-maven-plugin</artifactId>
-					<version>${sonar-maven-plugin.version}</version>
-					<configuration>
-						<skip>${sonar.skip}</skip>
-					</configuration>
-					<executions>
-						<execution>
-							<id>sonar-test</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>sonar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<!-- SPOTLESS FORMATTER PLUGIN -->
-				<plugin>
-					<groupId>com.diffplug.spotless</groupId>
-					<artifactId>spotless-maven-plugin</artifactId>
-					<version>${spotless-maven-plugin.version}</version>
-					<configuration>
-						<java>
-							<googleJavaFormat>
-								<!-- AOSP mode sets indent to 4 spaces securely under Google format -->
-								<style>AOSP</style>
-								<reflowLongStrings>false</reflowLongStrings>
-							</googleJavaFormat>
-							<!-- Note: Google Java Format strictly enforces its own limit of 100 characters for lines. -->
-							<!-- Spotless does not allow altering this specifically to a custom 600 character value in GJF mode. -->
-							<!-- If you want no line wrapping at all, you might need to reconsider using googleJavaFormat and instead provide an <eclipse> format definition file. -->
-						</java>
-					</configuration>
-					<executions>
-						<execution>
-							<id>spotless-check</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>check</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>versions-maven-plugin</artifactId>
-					<version>${versions-maven-plugin.version}</version>
-					<configuration>
-						<excludes>
-							<exclude>org.apache.commons:commons-collections4</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
-
 			</plugins>
 		</pluginManagement>
 
 		<plugins>
 			<plugin>
-				<groupId>org.sonatype.central</groupId>
-				<artifactId>central-publishing-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
+				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>license-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>com.github.wvengen</groupId>
 				<artifactId>proguard-maven-plugin</artifactId>
 			</plugin>
 			<plugin>
-				<groupId>io.snyk</groupId>
-				<artifactId>snyk-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.diffplug.spotless</groupId>
-				<artifactId>spotless-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
+				<version>${versions-maven-plugin.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>org.apache.commons:commons-collections4</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
+		
+			<!-- SPOTLESS FORMATTER PLUGIN -->
+			<plugin>
+				<groupId>com.diffplug.spotless</groupId>
+				<artifactId>spotless-maven-plugin</artifactId>
+				<version>${spotless-maven-plugin.version}</version>
+				<configuration>
+					<java>
+						<googleJavaFormat>
+							<style>AOSP</style> <!-- AOSP mode sets indent to 4 spaces securely under Google format -->
+							<reflowLongStrings>false</reflowLongStrings>
+						</googleJavaFormat>
+						<!-- Note: Google Java Format strictly enforces its own limit of 100 characters for lines. -->
+						<!-- Spotless does not allow altering this specifically to a custom 600 character value in GJF mode. -->
+						<!-- If you want no line wrapping at all, you might need to reconsider using googleJavaFormat and instead provide an <eclipse> format definition file. -->
+					</java>
+				</configuration>
+				<executions>
+					<execution>
+						<id>spotless-check</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- SNYK VALIDATION PLUGIN -->
+			<plugin>
+				<groupId>io.snyk</groupId>
+				<artifactId>snyk-maven-plugin</artifactId>
+				<version>${snyk-maven-plugin.version}</version>
+				<configuration>
+					<skip>${snyk.skip}</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>snyk-test</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- SONAR VALIDATION PLUGIN -->
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>${sonar-maven-plugin.version}</version>
+				<configuration>
+					<skip>${sonar.skip}</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<id>sonar-test</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sonar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 
