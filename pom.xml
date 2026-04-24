@@ -3,15 +3,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.5</version>
+		<groupId>cl.kanopus</groupId>
+		<artifactId>kanopus-core-parent</artifactId>
+		<version>4.05.2</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>cl.kanopus</groupId>
 	<artifactId>kanopus-boot-parent</artifactId>
-	<version>4.05.1</version>
 	<packaging>pom</packaging>
 
 	<name>Kanopus Boot Parent</name>
@@ -19,153 +17,10 @@
 	<url>https://kanopus.cl/</url>
 
 	<properties>
-		<java.version>17</java.version>
-		<maven.compiler.release>17</maven.compiler.release>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<spring-boot-starter-web.version>4.0.5</spring-boot-starter-web.version>
-
-		<!--  BOM versions -->
-		<jackson-core.version>3.1.1</jackson-core.version>
-		<spring-framework.version>7.0.7</spring-framework.version>
-		<spring-security.version>7.0.5</spring-security.version>
-		<tomcat.version>11.0.21</tomcat.version>
-		<thymeleaf.version>3.1.4.RELEASE</thymeleaf.version>
-		<springdoc-openapi-starter-webmvc-ui.version>3.0.0</springdoc-openapi-starter-webmvc-ui.version>
-
-
-		<!-- BOM kanopus versions -->
-		<klib-common.version>4.05.1</klib-common.version>
-		<klib-data-jdbc.version>4.05.1</klib-data-jdbc.version>
-		<klib-deploy-sql.version>4.05.1</klib-deploy-sql.version>
-		<klib-excel.version>4.05.1</klib-excel.version>
-		<klib-pdf.version>4.05.1</klib-pdf.version>
-		<klib-rest-template.version>4.05.1</klib-rest-template.version>
-		<klib-license-validator.version>4.05.1</klib-license-validator.version>
-		<klib-sii.version>4.05.1</klib-sii.version>
-		<klib-sii-iva.version>4.05.1</klib-sii-iva.version>
-
-		<!-- plugins versions -->
-		<central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
-		<license-maven-plugin.version>2.7.1</license-maven-plugin.version>
-		<maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
-		<maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
-		<maven-source-plugin.version>3.4.0</maven-source-plugin.version>
-		<maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
-		<maven-surfire-plugin.version>3.5.5</maven-surfire-plugin.version>
-		<proguard-maven-plugin.version>2.7.0</proguard-maven-plugin.version>
-		<versions-maven-plugin.version>2.20.1</versions-maven-plugin.version>
-		<maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
-		<maven-failsafe-plugin.version>3.5.5</maven-failsafe-plugin.version>
-		<jacoco-maven-plugin.version>0.8.11</jacoco-maven-plugin.version>
-		<spotless-maven-plugin.version>2.44.3</spotless-maven-plugin.version>
-		<snyk-maven-plugin.version>2.2.0</snyk-maven-plugin.version>
-		<sonar-maven-plugin.version>4.0.1.6619</sonar-maven-plugin.version>
-
 		<!-- behavior configuration -->
-		<maven.test.skip>false</maven.test.skip>
-		<license.skip>true</license.skip>
-		<proguard.skip>true</proguard.skip>
-		<snyk.skip>true</snyk.skip>
-		<sonar.skip>true</sonar.skip>
-		<jacoco.minimum.coverage>0.80</jacoco.minimum.coverage>
-
-		<!-- argLine for surefire and failsafe.-->
-		<argLine/>
+		<spring.boot.repackage.skip>false</spring.boot.repackage.skip>
 
 	</properties>
-
-	<!-- BOM integrate -->
-	<dependencyManagement>
-		<dependencies>
-
-			<dependency>
-				<groupId>cl.kanopus.util</groupId>
-				<artifactId>klib-common</artifactId>
-				<version>${klib-common.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>cl.kanopus.util</groupId>
-				<artifactId>klib-data-jdbc</artifactId>
-				<version>${klib-data-jdbc.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>cl.kanopus.util</groupId>
-				<artifactId>klib-deploy-sql</artifactId>
-				<version>${klib-deploy-sql.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-core</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>org.apache.logging.log4j</groupId>
-						<artifactId>log4j-slf4j2-impl</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>ch.qos.logback</groupId>
-						<artifactId>logback-classic</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-
-			<dependency>
-				<groupId>cl.kanopus.util</groupId>
-				<artifactId>klib-excel</artifactId>
-				<version>${klib-excel.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>cl.kanopus.util</groupId>
-				<artifactId>klib-pdf</artifactId>
-				<version>${klib-pdf.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>cl.kanopus.util</groupId>
-				<artifactId>klib-rest-template</artifactId>
-				<version>${klib-rest-template.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>cl.kanopus.lib</groupId>
-				<artifactId>klib-license-validator</artifactId>
-				<version>${klib-license-validator.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>cl.kanopus.util</groupId>
-				<artifactId>klib-sii-iva</artifactId>
-				<version>${klib-sii-iva.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>cl.kanopus.util</groupId>
-				<artifactId>klib-sii</artifactId>
-				<version>${klib-sii.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>tools.jackson.core</groupId>
-				<artifactId>jackson-core</artifactId>
-				<version>${jackson-core.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-				<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-web</artifactId>
-				<version>${spring-boot-starter-web.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 
 	<licenses>
 		<license>
@@ -204,40 +59,15 @@
 
 	<dependencies>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
 		<!-- SPRING DOCUMENTATION (springdoc 2.x starter para Spring Boot 3) -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hamcrest</groupId>
-			<artifactId>hamcrest</artifactId>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -254,397 +84,36 @@
 
 	</dependencies>
 
-	<profiles>
-		<profile>
-			<id>release</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-javadoc-plugin</artifactId>
-					</plugin>
-
-					<!-- Sign ALL artifacts, including the .pom -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>${maven-gpg-plugin.version}</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 	<build>
 		<pluginManagement>
 			<plugins>
-
 				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${maven-compiler-plugin.version}</version>
-					<configuration>
-						<release>${java.version}</release>
-						<excludes>
-							<exclude>**/package-info.java</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>${maven-source-plugin.version}</version>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>${spring.boot.version}</version>
 					<executions>
 						<execution>
-							<id>attach-sources</id>
+							<id>repackage</id>
 							<goals>
-								<goal>jar-no-fork</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>${maven-javadoc-plugin.version}</version>
-					<configuration>
-						<failOnError>false</failOnError>
-						<doclint>none</doclint> <!-- evita doclint con Java 8+ -->
-						<source>${java.version}</source>
-					</configuration>
-					<executions>
-						<execution>
-							<id>attach-javadocs</id>
-							<goals>
-								<goal>jar</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>${maven-surfire-plugin.version}</version>
-					<configuration>
-						<skipTests>${maven.test.skip}</skipTests>
-						<!-- Ensure JaCoCo agent is attached to forked test JVMs -->
-						<forkCount>1</forkCount>
-						<reuseForks>true</reuseForks>
-						<argLine>${argLine}</argLine>
-						<includes>
-							<include>**/*Test.java</include>
-						</includes>
-						<excludes>
-							<exclude>**/*IT.java</exclude>
-						</excludes>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-failsafe-plugin</artifactId>
-					<version>${maven-failsafe-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>integration-tests</id>
-							<goals>
-								<goal>integration-test</goal>
-								<goal>verify</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<!-- Ensure JaCoCo agent is attached to integration test JVMs -->
-						<forkCount>1</forkCount>
-						<reuseForks>true</reuseForks>
-						<argLine>${argLine}</argLine>
-						<includes>
-							<include>**/*IT.java</include>
-						</includes>
-					</configuration>
-				</plugin>
-
-				<plugin>
-					<groupId>org.jacoco</groupId>
-					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>${jacoco-maven-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>prepare-agent</id>
-							<goals>
-								<goal>prepare-agent</goal>
-							</goals>
-							<phase>initialize</phase>
-							<configuration>
-								<destFile>${project.build.directory}/jacoco.exec</destFile>
-								<propertyName>argLine</propertyName>
-							</configuration>
-						</execution>
-						<execution>
-							<id>report</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>report</goal>
+								<goal>repackage</goal>
 							</goals>
 							<configuration>
-								<dataFile>${project.build.directory}/jacoco.exec</dataFile>
-								<excludes>
-									<exclude>**/dto/**</exclude>
-									<exclude>**/config/**</exclude>
-									<exclude>**/*Dto*.class</exclude>
-									<exclude>**/*Request*.class</exclude>
-									<exclude>**/*Response*.class</exclude>
-									<exclude>**/*VO*.class</exclude>
-									<exclude>**/*Entity*.class</exclude>
-									<exclude>**/*Exception*.class</exclude>
-									<exclude>**/package-info.class</exclude>
-								</excludes>
-							</configuration>
-						</execution>
-						<execution>
-							<id>check</id>
-							<phase>verify</phase>
-							<goals>
-								<goal>check</goal>
-							</goals>
-							<configuration>
-								<dataFile>${project.build.directory}/jacoco.exec</dataFile>
-								<rules>
-									<rule>
-										<element>BUNDLE</element>
-										<limits>
-											<limit>
-												<counter>INSTRUCTION</counter>
-												<value>COVEREDRATIO</value>
-												<minimum>${jacoco.minimum.coverage}</minimum>
-											</limit>
-										</limits>
-										<excludes>
-											<exclude>**/dto/**</exclude>
-											<exclude>**/config/**</exclude>
-											<exclude>**/*DTO*.class</exclude>
-											<exclude>**/*Request*.class</exclude>
-											<exclude>**/*Response*.class</exclude>
-											<exclude>**/*VO*.class</exclude>
-											<exclude>**/*Entity*.class</exclude>
-											<exclude>**/*Exception*.class</exclude>
-											<exclude>**/package-info.class</exclude>
-										</excludes>
-									</rule>
-								</rules>
+								<skip>${spring.boot.repackage.skip}</skip>
 							</configuration>
 						</execution>
 					</executions>
 				</plugin>
-
-				<plugin>
-					<groupId>org.sonatype.central</groupId>
-					<artifactId>central-publishing-maven-plugin</artifactId>
-					<version>${central-publishing-maven-plugin.version}</version>
-					<extensions>true</extensions>
-					<configuration>
-						<publishingServerId>central</publishingServerId>
-					</configuration>
-				</plugin>
-
-				<!-- It is declared here for children to inherit, but the header is controlled with 'license.skip' -->
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>license-maven-plugin</artifactId>
-					<version>${license-maven-plugin.version}</version>
-					<configuration>
-						<skipUpdateLicense>${license.skip}</skipUpdateLicense>
-						<includes>
-							<include>**/*.java</include>
-						</includes>
-						<licenseName>apache_v2</licenseName>
-						<organizationName>Pablo Díaz Saavedra</organizationName>
-						<inceptionYear>2025</inceptionYear>
-						<addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
-						<processStartTag>!--</processStartTag>
-						<processEndTag>--!</processEndTag>
-						<descriptionTemplate>${user.home}/.m2/license/description.ftl</descriptionTemplate>
-					</configuration>
-					<executions>
-						<execution>
-							<id>apply-license-headers</id>
-							<phase>validate</phase>
-							<goals>
-								<goal>update-file-header</goal>
-							</goals>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-enforcer-plugin</artifactId>
-					<version>${maven-enforcer-plugin.version}</version>
-					<executions>
-						<execution>
-							<id>enforce-maven-min-version</id>
-							<goals>
-								<goal>enforce</goal>
-							</goals>
-							<configuration>
-								<rules>
-									<requireMavenVersion>
-										<version>[3.6.3,)</version>
-									</requireMavenVersion>
-								</rules>
-								<fail>true</fail>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-
-				<plugin>
-					<groupId>com.github.wvengen</groupId>
-					<artifactId>proguard-maven-plugin</artifactId>
-					<version>${proguard-maven-plugin.version}</version>
-					<executions>
-						<execution>
-							<phase>package</phase>
-							<goals>
-								<goal>proguard</goal>
-							</goals>
-						</execution>
-					</executions>
-					<configuration>
-						<skip>${proguard.skip}</skip>
-						<maxMemory>1024m</maxMemory>
-						<proguardInclude>${basedir}/proguard.conf</proguardInclude>
-						<libs>
-							<lib>${java.home}/jmods</lib>
-						</libs>
-					</configuration>
-				</plugin>
-
 			</plugins>
 		</pluginManagement>
 
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.central</groupId>
-				<artifactId>central-publishing-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>license-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>com.github.wvengen</groupId>
-				<artifactId>proguard-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-enforcer-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<version>${versions-maven-plugin.version}</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<excludes>
-						<exclude>org.apache.commons:commons-collections4</exclude>
-					</excludes>
+					<skip>${spring.boot.repackage.skip}</skip>
 				</configuration>
 			</plugin>
-		
-			<!-- SPOTLESS FORMATTER PLUGIN -->
-			<plugin>
-				<groupId>com.diffplug.spotless</groupId>
-				<artifactId>spotless-maven-plugin</artifactId>
-				<version>${spotless-maven-plugin.version}</version>
-				<configuration>
-					<java>
-						<googleJavaFormat>
-							<style>AOSP</style> <!-- AOSP mode sets indent to 4 spaces securely under Google format -->
-							<reflowLongStrings>false</reflowLongStrings>
-						</googleJavaFormat>
-						<!-- Note: Google Java Format strictly enforces its own limit of 100 characters for lines. -->
-						<!-- Spotless does not allow altering this specifically to a custom 600 character value in GJF mode. -->
-						<!-- If you want no line wrapping at all, you might need to reconsider using googleJavaFormat and instead provide an <eclipse> format definition file. -->
-					</java>
-				</configuration>
-				<executions>
-					<execution>
-						<id>spotless-check</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- SNYK VALIDATION PLUGIN -->
-			<plugin>
-				<groupId>io.snyk</groupId>
-				<artifactId>snyk-maven-plugin</artifactId>
-				<version>${snyk-maven-plugin.version}</version>
-				<configuration>
-					<skip>${snyk.skip}</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>snyk-test</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- SONAR VALIDATION PLUGIN -->
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>${sonar-maven-plugin.version}</version>
-				<configuration>
-					<skip>${sonar.skip}</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>sonar-test</id>
-						<phase>verify</phase>
-						<goals>
-							<goal>sonar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
 		</plugins>
 	</build>
 
