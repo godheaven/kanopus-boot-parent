@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>cl.kanopus</groupId>
 		<artifactId>kanopus-core-parent</artifactId>
-		<version>4.06.0</version>
+		<version>4.06.3</version>
 	</parent>
 
 	<modelVersion>4.0.0</modelVersion>
@@ -67,7 +67,7 @@
 		<!-- SPRING DOCUMENTATION -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
 		</dependency>
 
 		<dependency>
