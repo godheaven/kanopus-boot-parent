@@ -2,7 +2,7 @@
   <img src="https://www.kanopus.cl/assets/kanopus_black.png" width="220" alt="Kanopus logo"/>
 </p>
 
-![Maven](https://img.shields.io/maven-central/v/cl.kanopus/kanopus-boot-parent) ![License](https://img.shields.io/badge/license-Apache%20License,%20Version%202.0-blue) ![Java](https://img.shields.io/badge/java-17+-orange)
+![Maven](https://img.shields.io/maven-central/v/cl.kanopus/kanopus-boot-parent) ![License](https://img.shields.io/badge/license-Apache%20License,%20Version%202.0-blue) ![Java](https://img.shields.io/badge/java-21+-orange)
 
 # kanopus-boot-parent
 
@@ -76,7 +76,7 @@ To use this parent in your Maven project, add the following to your `pom.xml`:
 <parent>
     <groupId>cl.kanopus</groupId>
     <artifactId>kanopus-boot-parent</artifactId>
-    <version>4.06.3</version>
+    <version>4.20.0</version>
 </parent>
 ```
 
