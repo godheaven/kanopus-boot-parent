@@ -2,8 +2,8 @@
 
 ## Tech Stack Rules
 
-- Java 17 or 21.
-- Spring Boot 3.5.x (WebFlux for API Gateway, MVC for internal services).
+- Java 21.
+- Spring Boot 4.2.x (WebFlux for API Gateway, MVC for internal services).
 - Avoid javax.*; use jakarta.*.
 - Logback + SLF4J.
 - Prometheus actuator should always be enabled.
@@ -61,7 +61,7 @@
 
 - No business logic in controllers.
 - Services should be stateless.
-- HTTP integrations should use HttpClient 5.5.1.
+- HTTP integrations should use HttpClient 5 (version managed by the Spring Boot BOM).
 
 ## Security
 
